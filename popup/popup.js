@@ -15,7 +15,7 @@ async function main() {
     let hostname = url.hostname;
 
     // Set UI
-    document.getElementById('hostname').innerTEXT = hostname;
+    document.getElementById('hostname').textContent = hostname;
     if (whitelist.has(hostname)) {
         document.getElementById('list-whitelist').checked = true;
     } else {
