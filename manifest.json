@@ -16,9 +16,7 @@
   },
 
   "background": {
-    "scripts": [
-      "background/proxy-handler.js"
-    ]
+    "page": "background/background-page.html"
   },
 
   "options_ui": {
