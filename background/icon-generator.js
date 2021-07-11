@@ -18,8 +18,8 @@ export function getIconCanvas() {
      */
   
     // Calculate properties
-    const width = canvas.width * 0.6;
-    const height = canvas.height * 0.6;
+    const width = canvas.width * 0.8;
+    const height = canvas.height * 0.8;
     const center_x = canvas.width * 0.5;
     const bottom_y = canvas.height * 0.8;
   
