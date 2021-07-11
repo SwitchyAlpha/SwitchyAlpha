@@ -6,8 +6,7 @@
   "version": "0.1",
 
   "icons": {
-    "48": "icons/block.svg",
-    "96": "icons/block.svg"
+    "96": "icons/icon.png"
   },
 
   "browser_specific_settings": {
@@ -28,7 +27,7 @@
   },
 
   "browser_action": {
-    "default_icon": "icons/block.svg",
+    "default_icon": "icons/icon.png",
     "default_title": "Proxy SwitchyAlpha",
     "default_popup": "popup/popup.html",
     "browser_style": true
