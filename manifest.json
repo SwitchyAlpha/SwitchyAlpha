@@ -11,6 +11,7 @@
 
   "browser_specific_settings": {
     "gecko": {
+      "id": "switchyalpha@protonmail.com",
       "strict_min_version": "56.0a1"
     }
   },
