@@ -16,11 +16,13 @@ async function main() {
 
         // Always use direct for localhost
         if (hostname == 'localhost' || hostname == '127.0.0.1') {
+            console.log(`Using direct for ${url} because hostname is localhost`);
             return proxy_info_0;
         }
 
         // If url in whitelist
         if (whitelist.has(hostname)) {
+            console.log(`Using direct for ${url} because hostname (${hostname}) is in whitelist`);
             return proxy_info_0;
         }
 
@@ -30,14 +32,15 @@ async function main() {
                 if (tab.url) {
                     const tab_url = new URL(tab.url);
                     if (whitelist.has(tab_url.hostname)) {
+                        console.log(`Using direct for ${url} because hostname of tab.url (${tab.url}) is in whitelist`);
                         return proxy_info_0;
                     }
                 }
-                //console.log(`Using direct for ${url} because hostname of tab.url (${tab.url}) is in whitelist`);
+                console.log(`Using proxy for ${url} because tab.url is invalid or not in whitelist`);
                 return proxy_info_1;
             });
         } else {  // tabId of initial requests or DNS requests is -1
-            //console.log(`Using proxy for ${url} because its hostname is not in whitelist and it does not belong to a tab`);
+            console.log(`Using proxy for ${url} because its hostname is not in whitelist and it does not belong to a tab`);
             return proxy_info_1;
         }
     }
