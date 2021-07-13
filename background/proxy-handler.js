@@ -1,3 +1,5 @@
+import { tabUrls } from './tab-url-recorder.js'
+
 async function main() {
     // Retrieve whitelist
     const data = await browser.storage.local.get();
@@ -27,24 +29,29 @@ async function main() {
         }
 
         // If request is from a tab
-        if (requestInfo.tabId >= 0) {
-            return browser.tabs.get(requestInfo.tabId).then(tab => {
-                if (tab.url) {
-                    const tabUrl = new URL(tab.url);
-                    if (whitelist.has(tabUrl.hostname)) {
-                        console.log(`Using direct for ${url} because hostname of tab.url (${tab.url}) is in whitelist`);
+        const tabId = requestInfo.tabId;
+        if (tabId >= 0) {
+            if (tabId in tabUrls) {
+                const tabUrl = tabUrls[tabId];
+                if (tabUrl) {
+                    const tabHostname = (new URL(tabUrl)).hostname;
+                    if (whitelist.has(tabHostname)) {
+                        console.log(`Using direct for ${url} because tabHostname (${tabHostname}) is in whitelist`);
                         return proxyInfo0;
                     } else {
-                        console.log(`Using proxy for ${url} because hostname of tab.url (${tab.url}) is not in whitelist`);
+                        console.log(`Using proxy for ${url} because tabHostname (${tabHostname}, tabUrl: ${tabUrl}) is not in whitelist`);
                         return proxyInfo1;
                     }
                 } else {
-                    console.log(`Using proxy for ${url} because tab.url is invalid (${tab.url})`);
+                    console.log(`Using proxy for ${url} because tabUrl is invalid (${tabUrl}, tabId: ${tabId})`);
                     return proxyInfo1;
                 }
-            });
+            } else {
+                console.log(`Using proxy for ${url} because tabId (${tabId}) is not in tabUrls`);
+                return proxyInfo1;
+            }
         } else {  // tabId of initial requests or DNS requests is -1
-            console.log(`Using proxy for ${url} because its hostname is not in whitelist and its tabId is ${requestInfo.tabId}`);
+            console.log(`Using proxy for ${url} because tabId is ${requestInfo.tabId}`);
             return proxyInfo1;
         }
     }
