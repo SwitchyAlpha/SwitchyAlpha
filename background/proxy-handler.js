@@ -36,14 +36,14 @@ async function main() {
                 if (tabUrl) {
                     const tabHostname = (new URL(tabUrl)).hostname;
                     if (whitelist.has(tabHostname)) {
-                        console.log(`Using direct for ${url} because tabHostname (${tabHostname}) is in whitelist`);
+                        console.log(`Using direct for ${url} because tabHostname is in whitelist (tabUrl: ${tabUrl}, tabId: ${tabId})`);
                         return proxyInfo0;
                     } else {
-                        console.log(`Using proxy for ${url} because tabHostname (${tabHostname}, tabUrl: ${tabUrl}) is not in whitelist`);
+                        console.log(`Using proxy for ${url} because tabHostname is not in whitelist (tabUrl: ${tabUrl}, tabId: ${tabId})`);
                         return proxyInfo1;
                     }
                 } else {
-                    console.log(`Using proxy for ${url} because tabUrl is invalid (${tabUrl}, tabId: ${tabId})`);
+                    console.log(`Using proxy for ${url} because tabUrl is invalid (tabUrl: ${tabUrl}, tabId: ${tabId})`);
                     return proxyInfo1;
                 }
             } else {
