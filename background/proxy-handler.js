@@ -34,13 +34,17 @@ async function main() {
                     if (whitelist.has(tab_url.hostname)) {
                         console.log(`Using direct for ${url} because hostname of tab.url (${tab.url}) is in whitelist`);
                         return proxy_info_0;
+                    } else {
+                        console.log(`Using proxy for ${url} because hostname of tab.url (${tab.url}) is not in whitelist`);
+                        return proxy_info_1;
                     }
+                } else {
+                    console.log(`Using proxy for ${url} because tab.url is invalid (${tab.url})`);
+                    return proxy_info_1;
                 }
-                console.log(`Using proxy for ${url} because tab.url is invalid or not in whitelist`);
-                return proxy_info_1;
             });
         } else {  // tabId of initial requests or DNS requests is -1
-            console.log(`Using proxy for ${url} because its hostname is not in whitelist and it does not belong to a tab`);
+            console.log(`Using proxy for ${url} because its hostname is not in whitelist and its tabId is ${requestInfo.tabId}`);
             return proxy_info_1;
         }
     }
