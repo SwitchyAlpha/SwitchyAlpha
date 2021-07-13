@@ -20,21 +20,21 @@ export function getIconCanvas() {
     // Calculate properties
     const width = canvas.width * 0.8;
     const height = canvas.height * 0.8;
-    const center_x = canvas.width * 0.5;
-    const bottom_y = canvas.height * 0.9;
+    const centerX = canvas.width * 0.5;
+    const bottomY = canvas.height * 0.9;
   
-    const d_a = width * 0.3;
-    const d_b = d_a / width * height;
-    const d_c = width * 0.5;
-    const d_d = d_c / width * height;
+    const da = width * 0.3;
+    const db = da / width * height;
+    const dc = width * 0.5;
+    const dd = dc / width * height;
   
-    const p1 = { x: center_x + width / 2, y: bottom_y          };
-    const p2 = { x: center_x,             y: bottom_y - height };
-    const p3 = { x: p2.x - d_a / 2,       y: p2.y + d_b        };
-    const p4 = { x: p1.x - d_a,           y: p1.y              };
-    const p5 = { x: center_x - width / 2, y: bottom_y          };
-    const p6 = { x: p5.x + d_c / 2,       y: p5.y - d_d        };
-    const p7 = { x: p5.x + d_c,           y: p5.y              };
+    const p1 = { x: centerX + width / 2, y: bottomY          };
+    const p2 = { x: centerX,             y: bottomY - height };
+    const p3 = { x: p2.x - da / 2,       y: p2.y + db        };
+    const p4 = { x: p1.x - da,           y: p1.y              };
+    const p5 = { x: centerX - width / 2, y: bottomY          };
+    const p6 = { x: p5.x + dc / 2,       y: p5.y - dd        };
+    const p7 = { x: p5.x + dc,           y: p5.y              };
   
     // Draw larger polygon
     ctx.beginPath();
