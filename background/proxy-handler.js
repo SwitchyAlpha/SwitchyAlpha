@@ -11,47 +11,47 @@ async function main() {
     // Main proxy handler
     function handleProxyRequest(requestInfo) {
         const url = new URL(requestInfo.url);
-        const hostname = url.hostname;
 
         const proxyInfo0 = {type: 'direct'};
         const proxyInfo1 = {type: 'socks', host: 'localhost', port: 1080, proxyDNS: true};
 
         // Always use direct for localhost
-        if (hostname == 'localhost' || hostname == '127.0.0.1') {
-            console.log(`Using direct for ${url} because hostname is localhost`);
+        if (url.hostname == 'localhost' || url.hostname == '127.0.0.1') {
+            console.log(`DIRECT: ${url}, REASON: Hostname is localhost`);
             return proxyInfo0;
         }
 
         // If url in whitelist
-        if (whitelist.has(hostname)) {
-            console.log(`Using direct for ${url} because hostname (${hostname}) is in whitelist`);
+        if (whitelist.has(url.hostname)) {
+            console.log(`DIRECT: ${url}, REASON: Hostname in whitelist`);
             return proxyInfo0;
         }
 
         // If request is from a tab
         const tabId = requestInfo.tabId;
+        const documentUrl = requestInfo.documentUrl;
         if (tabId >= 0) {
             if (tabId in tabUrls) {
                 const tabUrl = tabUrls[tabId];
                 if (tabUrl) {
                     const tabHostname = (new URL(tabUrl)).hostname;
                     if (whitelist.has(tabHostname)) {
-                        console.log(`Using direct for ${url} because tabHostname is in whitelist (tabUrl: ${tabUrl}, tabId: ${tabId})`);
+                        console.log(`DIRECT: ${url}, REASON: Tab hostname in whitelist (tabId: ${tabId}, tabUrl: ${tabUrl}, documentUrl: ${documentUrl})`);
                         return proxyInfo0;
                     } else {
-                        console.log(`Using proxy for ${url} because tabHostname is not in whitelist (tabUrl: ${tabUrl}, tabId: ${tabId})`);
+                        console.log(`PROXY: ${url}, REASON: Tab hostname not in whitelist (tabId: ${tabId}, tabUrl: ${tabUrl}, documentUrl: ${documentUrl})`);
                         return proxyInfo1;
                     }
                 } else {
-                    console.log(`Using proxy for ${url} because tabUrl is invalid (tabUrl: ${tabUrl}, tabId: ${tabId})`);
+                    console.log(`PROXY: ${url}, REASON: Invalid tab url (tabId: ${tabId}, tabUrl: ${tabUrl}, documentUrl: ${documentUrl})`);
                     return proxyInfo1;
                 }
             } else {
-                console.log(`Using proxy for ${url} because tabId (${tabId}) is not in tabUrls`);
+                console.log(`PROXY: ${url}, REASON: Tab id not recorded (tabId: ${tabId}, documentUrl: ${documentUrl})`);
                 return proxyInfo1;
             }
         } else {  // tabId of initial requests or DNS requests is -1
-            console.log(`Using proxy for ${url} because tabId is ${requestInfo.tabId}`);
+            console.log(`PROXY: ${url}, REASON: Invalid tab id (tabId: ${tabId}, documentUrl: ${documentUrl})`);
             return proxyInfo1;
         }
     }
