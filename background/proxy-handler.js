@@ -10,26 +10,27 @@ async function main() {
 
     // Main proxy handler
     function handleProxyRequest(requestInfo) {
-        const url = new URL(requestInfo.url);
+        const url = requestInfo.url;
+        const documentUrl = requestInfo.documentUrl;
+        const hostname = (new URL(url)).hostname;
 
         const proxyInfo0 = {type: 'direct'};
         const proxyInfo1 = {type: 'socks', host: 'localhost', port: 1080, proxyDNS: true};
 
         // Always use direct for localhost
-        if (url.hostname == 'localhost' || url.hostname == '127.0.0.1') {
+        if (hostname == 'localhost' || hostname == '127.0.0.1') {
             console.log(`DIRECT: ${url}, REASON: Hostname is localhost`);
             return proxyInfo0;
         }
 
         // If url in whitelist
-        if (whitelist.has(url.hostname)) {
+        if (whitelist.has(hostname)) {
             console.log(`DIRECT: ${url}, REASON: Hostname in whitelist`);
             return proxyInfo0;
         }
 
         // If request is from a tab
         const tabId = requestInfo.tabId;
-        const documentUrl = requestInfo.documentUrl;
         if (tabId >= 0) {
             if (tabId in tabUrls) {
                 const tabUrl = tabUrls[tabId];
