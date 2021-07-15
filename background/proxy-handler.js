@@ -29,6 +29,12 @@ async function main() {
             return proxyInfo0;
         }
 
+        // If documentUrl is invalid
+        if (!documentUrl) {
+            console.log(`PROXY: ${url}, REASON: New url irrelavant to current document`);
+            return proxyInfo1;
+        }
+
         // If request is from a tab
         const tabId = requestInfo.tabId;
         if (tabId >= 0) {
