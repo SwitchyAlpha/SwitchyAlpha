@@ -1,11 +1,6 @@
-async function main() {
-    // Retrieve whitelist
-    const data = await browser.storage.local.get();
-    let whitelist = data.whitelist ? data.whitelist : new Set();
-    browser.storage.onChanged.addListener(changeData => {
-        whitelist = changeData.whitelist.newValue;
-    });
+import { data } from '../common/data-retriever.js'
 
+async function main() {
     // Retrieve hostname
     const tabs = await browser.tabs.query({currentWindow: true, active: true});
     if (!tabs[0].url) {
@@ -16,7 +11,7 @@ async function main() {
 
     // Set UI
     document.getElementById('hostname').textContent = hostname;
-    if (whitelist.has(hostname)) {
+    if (data.whitelist.has(hostname)) {
         document.getElementById('list-whitelist').checked = true;
     } else {
         document.getElementById('list-none').checked = true;
@@ -28,13 +23,13 @@ async function main() {
             console.log(`Radio value changed: ${event.target.value}`);
             switch (event.target.value) {
                 case 'none':
-                    whitelist.delete(hostname);
+                    data.whitelist.delete(hostname);
                     break;
                 case 'whitelist':
-                    whitelist.add(hostname);
+                    data.whitelist.add(hostname);
                     break;
             }
-            browser.storage.local.set({ whitelist });
+            browser.storage.local.set({ whitelist: data.whitelist });
         }
     })
 }

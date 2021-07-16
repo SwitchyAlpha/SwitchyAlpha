@@ -1,13 +1,7 @@
+import { data } from '../common/data-retriever.js'
 import { tabUrls } from './tab-url-recorder.js'
 
 async function main() {
-    // Retrieve whitelist
-    const data = await browser.storage.local.get();
-    let whitelist = data.whitelist ? data.whitelist : new Set();
-    browser.storage.onChanged.addListener(changeData => {
-        whitelist = changeData.whitelist.newValue;
-    });
-
     // Main proxy handler
     function handleProxyRequest(requestInfo) {
         const url = requestInfo.url;
@@ -25,7 +19,7 @@ async function main() {
         }
 
         // If url in whitelist
-        if (whitelist.has(hostname)) {
+        if (data.whitelist.has(hostname)) {
             console.log(`DIRECT: ${url}, REASON: Hostname in whitelist`);
             return proxyInfo0;
         }
@@ -43,7 +37,7 @@ async function main() {
                 const tabUrl = tabUrls[tabId];
                 if (tabUrl) {
                     const tabHostname = (new URL(tabUrl)).hostname;
-                    if (whitelist.has(tabHostname)) {
+                    if (data.whitelist.has(tabHostname)) {
                         console.log(`DIRECT: ${url}, REASON: Tab hostname in whitelist (tabId: ${tabId}, tabUrl: ${tabUrl}, documentUrl: ${documentUrl}, type: ${type})`);
                         return proxyInfo0;
                     } else {
