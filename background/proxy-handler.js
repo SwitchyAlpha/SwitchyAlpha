@@ -12,6 +12,7 @@ async function main() {
     function handleProxyRequest(requestInfo) {
         const url = requestInfo.url;
         const documentUrl = requestInfo.documentUrl;
+        const type = requestInfo.type;
         const hostname = (new URL(url)).hostname;
 
         const proxyInfo0 = {type: 'direct'};
@@ -43,22 +44,22 @@ async function main() {
                 if (tabUrl) {
                     const tabHostname = (new URL(tabUrl)).hostname;
                     if (whitelist.has(tabHostname)) {
-                        console.log(`DIRECT: ${url}, REASON: Tab hostname in whitelist (tabId: ${tabId}, tabUrl: ${tabUrl}, documentUrl: ${documentUrl})`);
+                        console.log(`DIRECT: ${url}, REASON: Tab hostname in whitelist (tabId: ${tabId}, tabUrl: ${tabUrl}, documentUrl: ${documentUrl}, type: ${type})`);
                         return proxyInfo0;
                     } else {
-                        console.log(`PROXY: ${url}, REASON: Tab hostname not in whitelist (tabId: ${tabId}, tabUrl: ${tabUrl}, documentUrl: ${documentUrl})`);
+                        console.log(`PROXY: ${url}, REASON: Tab hostname not in whitelist (tabId: ${tabId}, tabUrl: ${tabUrl}, documentUrl: ${documentUrl}, type: ${type})`);
                         return proxyInfo1;
                     }
                 } else {
-                    console.log(`PROXY: ${url}, REASON: Invalid tab url (tabId: ${tabId}, tabUrl: ${tabUrl}, documentUrl: ${documentUrl})`);
+                    console.log(`PROXY: ${url}, REASON: Invalid tab url (tabId: ${tabId}, tabUrl: ${tabUrl}, documentUrl: ${documentUrl}, type: ${type})`);
                     return proxyInfo1;
                 }
             } else {
-                console.log(`PROXY: ${url}, REASON: Tab id not recorded (tabId: ${tabId}, documentUrl: ${documentUrl})`);
+                console.log(`PROXY: ${url}, REASON: Tab id not recorded (tabId: ${tabId}, documentUrl: ${documentUrl}, type: ${type})`);
                 return proxyInfo1;
             }
         } else {  // tabId of initial requests or DNS requests is -1
-            console.log(`PROXY: ${url}, REASON: Invalid tab id (tabId: ${tabId}, documentUrl: ${documentUrl})`);
+            console.log(`PROXY: ${url}, REASON: Invalid tab id (tabId: ${tabId}, documentUrl: ${documentUrl}, type: ${type})`);
             return proxyInfo1;
         }
     }
