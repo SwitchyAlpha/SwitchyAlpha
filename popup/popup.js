@@ -19,7 +19,7 @@ async function main() {
 
     // Listen on radio change
     document.addEventListener('change', event => {
-        if (event.target.type == 'radio') {
+        if (event.target.type === 'radio') {
             console.log(`Radio value changed: ${event.target.value}`);
             switch (event.target.value) {
                 case 'none':

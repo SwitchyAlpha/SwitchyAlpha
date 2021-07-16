@@ -13,7 +13,7 @@ async function main() {
         const proxyInfo1 = {type: 'socks', host: 'localhost', port: 1080, proxyDNS: true};
 
         // Always use direct for localhost
-        if (hostname == 'localhost' || hostname == '127.0.0.1') {
+        if (hostname === 'localhost' || hostname === '127.0.0.1') {
             console.log(`DIRECT: ${url}, REASON: Hostname is localhost`);
             return proxyInfo0;
         }
