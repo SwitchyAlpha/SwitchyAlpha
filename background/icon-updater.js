@@ -4,28 +4,27 @@ import { tabUrls } from './tab-url-recorder.js'
 
 async function updateIcon(tabId) {
     // Get connection type for active tab
-    let conn = 'default';
+    let conn;
     if (tabId in tabUrls) {
         const tabUrl = tabUrls[tabId];
         if (tabUrl) {
             const tabHostname = (new URL(tabUrl)).hostname;
             if (data.whitelist.has(tabHostname)) {
                 conn = 'direct';
+            } else {
+                conn = 'default';
             }
         }
     }
 
     // Set color
-    let colorLeft;
+    let colorLeft = 'rgba(200, 200, 200)';
+    let colorRight = 'rgba(0, 0, 200)';
     if (conn === 'default') {
         colorLeft = 'rgba(0, 0, 200)';
     } else if (conn === 'direct') {
         colorLeft = 'rgba(0, 200, 0)';
-    } else {
-        throw `Invalid connection type: ${conn}`;
     }
-
-    let colorRight = 'rgba(0, 0, 200)';
 
     // Set icon
     const canvas = getIconCanvas(colorLeft, colorRight);
