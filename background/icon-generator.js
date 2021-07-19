@@ -1,4 +1,4 @@
-export function getIconCanvas() {
+export function getIconCanvas(colorLeft = 'rgba(0, 0, 200)', colorRight = 'rgba(0, 200, 0)') {
     const canvas = document.createElement('canvas');
     canvas.setAttribute('width', 96);
     canvas.setAttribute('height', 96);
@@ -42,7 +42,7 @@ export function getIconCanvas() {
     ctx.lineTo(p2.x, p2.y);
     ctx.lineTo(p3.x, p3.y);
     ctx.lineTo(p4.x, p4.y);
-    ctx.fillStyle = 'rgba(0, 0, 200)';
+    ctx.fillStyle = colorRight;
     ctx.fill();
   
     // Draw smaller polygon
@@ -50,7 +50,7 @@ export function getIconCanvas() {
     ctx.moveTo(p5.x, p5.y);
     ctx.lineTo(p6.x, p6.y);
     ctx.lineTo(p7.x, p7.y);
-    ctx.fillStyle = 'rgba(0, 200, 0)';
+    ctx.fillStyle = colorLeft;
     ctx.fill();
 
     return canvas;
