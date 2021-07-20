@@ -1,11 +1,8 @@
 import { data } from '../common/data-retriever.js'
 
-async function main() {
-    // Retrieve hostname
-    const tabs = await browser.tabs.query({currentWindow: true, active: true});
-    if (!tabs[0].url) {
-        return;
-    }
+// Retrieve hostname
+const tabs = await browser.tabs.query({currentWindow: true, active: true});
+if (tabs[0].url) {
     const url = new URL(tabs[0].url);
     let hostname = url.hostname;
 
@@ -31,9 +28,5 @@ async function main() {
             }
             browser.storage.local.set({ whitelist: data.whitelist });
         }
-    })
+    });
 }
-
-main().catch(error => {
-    console.error(`Error in popup: ${error.message}`);
-});
