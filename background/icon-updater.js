@@ -7,13 +7,11 @@ async function updateIcon(tabId) {
     let conn;
     if (tabId in tabUrls) {
         const tabUrl = tabUrls[tabId];
-        if (tabUrl) {
-            const tabHostname = (new URL(tabUrl)).hostname;
-            if (data.whitelist.has(tabHostname)) {
-                conn = 'direct';
-            } else {
-                conn = 'default';
-            }
+        const tabHostname = (new URL(tabUrl)).hostname;
+        if (data.whitelist.has(tabHostname)) {
+            conn = 'direct';
+        } else {
+            conn = 'default';
         }
     }
 
