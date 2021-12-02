@@ -1,0 +1,5 @@
+put all shared variables into common
+change whitelist to dictionary { url: [default|direct|proxy] }
+
+hostname wildcard
+set proxy in options
